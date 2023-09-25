@@ -1,0 +1,24 @@
+.test-wrapper {
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 100px 0;
+    font-size: 40px;
+}
+.test-wrapper button {
+    width: 300px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--main-theme);
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    margin: 0 auto;
+}
