@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import "./main.css";
 import Skeleton from "../skeleton/Skeleton";
 import {Link} from "react-router-dom";
+import Service from "../../services/QuizService";
 
 class Main extends Component {
     constructor(props) {
@@ -12,36 +13,68 @@ class Main extends Component {
                     title: "Mathematics",
                     tag: "math",
                     category: 19,
-                    difficulty: "easy",
+                    difficulty: "default",
                 },
                 {
                     title: "Literature",
                     tag: "literature",
                     category: 10,
-                    difficulty: "easy",
+                    difficulty: "default",
                 },
                 {
                     title: "Art",
                     tag: "art",
                     category: 25,
-                    difficulty: "easy",
+                    difficulty: "default",
                 },
                 {
                     title: "Video games",
                     tag: "games",
                     category: 15,
-                    difficulty: "easy",
+                    difficulty: "default",
                 },
                 {
                     title: "Science & Nature",
                     tag: "nature",
                     category: 17,
-                    difficulty: "easy",
+                    difficulty: "default",
                 }
             ],
             activeOption: null,
+            difficultyOptions: {
+                default: {
+                    amountOfQuestions: 12,
+                    time: 20,
+                },
+                easy: {
+                    amountOfQuestions: 9,
+                    time: 20,
+                },
+                medium: {
+                    amountOfQuestions: 12,
+                    time: 20,
+                },
+                hard: {
+                    amountOfQuestions: 20,
+                    time: 20,
+                },
+            },
+            links: [
+                {
+                    url: "https://github.com/kamawui?tab=repositories",
+                    logo: "/github-mark-white.png",
+                    title: "GitHub"
+                },
+                {
+                    url: "https://discord.com/users/686630494682742861",
+                    logo: "/discord-mark-white.png",
+                    title: "Discord"
+                },
+            ],
         }
     }
+
+    quizService = new Service();
 
     changeActiveSubject = (activeOption) => {
         this.setState({activeOption});
@@ -68,31 +101,86 @@ class Main extends Component {
         })
     }
 
+    convertDifficulties = (difficulty) => {
+        if (!difficulty) {
+            return "";
+        }
 
+        return difficulty;
+    }
+
+    getQuiz = () => {
+        const {activeOption, difficultyOptions} = this.state;
+
+        this.props.makeLoading(true);
+
+        this.quizService.getMultipleQuiz(this.convertDifficulties(activeOption.difficulty), activeOption.category)
+            .then(res => this.sendQuiz(
+                res,
+                activeOption.title,
+                activeOption.difficulty,
+                difficultyOptions[activeOption.difficulty].amountOfQuestions
+            ))
+            .catch((e) => console.log(e))
+    }
+
+    sendQuiz = (questions, title, difficulty, amountOfQuestions) => {
+        let quiz = {
+            title: title,
+            difficulty: difficulty,
+            amountOfQuestions: amountOfQuestions,
+            questions: questions,
+        };
+
+        this.props.setQuiz(quiz);
+    }
+
+    componentDidMount() {
+        this.props.makeLoading(true);
+    }
 
     render() {
-        const {quizzes, activeOption} = this.state;
+        const {quizzes, activeOption, difficultyOptions, links} = this.state;
 
-        const availableQuizzes = quizzes.map(item => {
+        const availableQuizzes = quizzes.map((item, key) => {
 
             let active = activeOption ? activeOption : {tag: "none"}
 
             return (
-                <div className={active.tag === item.tag ? "quiz-link active-option" : "quiz-link"}
+                <div key={key} className={active.tag === item.tag ? "quiz-link active-option" : "quiz-link"}
                      onClick={() => this.changeActiveSubject(item)}>
                     <span>{item.title}</span>
                 </div>
             )
         });
 
-        const options = activeOption ? <ActiveOption onChangeDiff={this.changeDifficulty} activeOption={activeOption}/> : <Skeleton />
+        const options = activeOption ?
+            <ActiveOption onStart={this.getQuiz} onChangeDiff={this.changeDifficulty}
+                          activeOption={activeOption} quizParameters={difficultyOptions[activeOption.difficulty]}/> :
+            <Skeleton />
+
+        const mainLinks = links.map((item, key) => {
+            return (
+                <a key={key} href={item.url} target="_blank">
+                    <div className="main-link">
+                        <img src={item.logo} alt=""/>
+                        <p>{item.title}</p>
+                    </div>
+                </a>
+            )
+        })
 
         return (
             <div className="main-wrapper">
                 <div className="main-info">
-                    <h2 className="main-header">Quiz React App</h2>
+                    <Link className="link-to-home" to="/home">
+                        <h2 className="title-header">Quiz React App</h2>
+                    </Link>
                     <p className="main-paragraph">
-                        Different topic quizzes from <a className="link-text" href="https://opentdb.com/">Trivia Database</a>
+                        Different topic quizzes from
+                        <a className="link-text" href="https://opentdb.com/" target="_blank">
+                            {" Trivia Database"}
+                        </a>
                     </p>
                 </div>
                 <div className="main-quizzes">
@@ -102,16 +190,21 @@ class Main extends Component {
                             {availableQuizzes}
                         </div>
                     </div>
-                    {options}
+                    <div className="option-wrapper">
+                        {options}
+                    </div>
+                </div>
+                <div className="main-links">
+                    {mainLinks}
                 </div>
             </div>
         );
     }
 }
 
-const ActiveOption = ({activeOption, onChangeDiff}) => {
+const ActiveOption = ({activeOption, onChangeDiff, onStart, quizParameters}) => {
     return (
-        <div className="option-wrapper">
+        <>
             <div className="option-info">Set up a quiz</div>
             <div className="option-title">{activeOption.title}</div>
             <div className="options">
@@ -128,8 +221,15 @@ const ActiveOption = ({activeOption, onChangeDiff}) => {
                     Hard
                 </button>
             </div>
-            <Link to="/quiz" style={{ textDecoration: 'none' }}><button className="start-quiz">Start</button></Link>
-        </div>
+            <div className="default-options">
+                <button onClick={() => onChangeDiff("default")}
+                        className={activeOption.difficulty === "default" ? "difficulty-default active-option " : "difficulty-default"}>
+                    Default
+                </button>
+            </div>
+            <div className="additional-info">{quizParameters.amountOfQuestions} questions, {quizParameters.time} minutes</div>
+            <Link to="/quiz" style={{ textDecoration: 'none' }}><button onClick={onStart} className="start-quiz">Start</button></Link>
+        </>
     )
 }
 

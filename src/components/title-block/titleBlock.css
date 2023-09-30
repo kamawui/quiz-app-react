@@ -1,0 +1,26 @@
+.disabled {
+    display: none;
+}
+.title-info {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid #b7c7c2;
+}
+.link-to-home {
+    text-decoration: none;
+    color: var(--main-dark);
+}
+.title-info h2 {
+    margin: 0;
+    padding: 10px 0 0;
+    font-size: 32px;
+    font-weight: 400;
+    cursor: pointer;
+}
+.title-info p {
+    margin: 0;
+    font-size: 17px;
+    padding: 10px 0;
+    line-height: 26px;
+    color: var(--dark);
+    font-weight: 400;
+}
