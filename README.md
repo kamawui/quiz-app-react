@@ -1,1 +1,1 @@
-https://quiz-app-react-navy.vercel.app/
+https://quiz-app-react-kamawui.vercel.app/
