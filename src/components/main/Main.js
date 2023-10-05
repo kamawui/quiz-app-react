@@ -114,7 +114,11 @@ class Main extends Component {
 
         this.props.makeLoading(true);
 
-        this.quizService.getMultipleQuiz(this.convertDifficulties(activeOption.difficulty), activeOption.category)
+        this.quizService.getMultipleQuiz(
+            this.convertDifficulties(activeOption.difficulty),
+            activeOption.category,
+            difficultyOptions[activeOption.difficulty].amountOfQuestions
+        )
             .then(res => this.sendQuiz(
                 res,
                 activeOption.title,
