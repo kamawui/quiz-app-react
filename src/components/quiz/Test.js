@@ -18,21 +18,6 @@ class Test extends Component {
         }
     }
 
-    shuffle = (questions) => {
-        let currentIndex = questions.length,  randomIndex;
-
-        while (currentIndex > 0) {
-
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-
-            [questions[currentIndex], questions[randomIndex]] = [
-                questions[randomIndex], questions[currentIndex]];
-        }
-
-        return questions;
-    }
-
     moveActiveCardKey = (amount, activeCardKey) => {
         if (activeCardKey !== amount && activeCardKey !== -1) {
             this.setState({activeCardKey});

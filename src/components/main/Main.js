@@ -133,10 +133,25 @@ class Main extends Component {
             title: title,
             difficulty: difficulty,
             amountOfQuestions: amountOfQuestions,
-            questions: questions,
+            questions: this.shuffle(questions),
         };
 
         this.props.setQuiz(quiz);
+    }
+
+    shuffle = (questions) => {
+        let currentIndex = questions.length,  randomIndex;
+
+        while (currentIndex > 0) {
+
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+
+            [questions[currentIndex], questions[randomIndex]] = [
+                questions[randomIndex], questions[currentIndex]];
+        }
+
+        return questions;
     }
 
     componentDidMount() {
