@@ -33,6 +33,8 @@ class Test extends Component {
                 }
             }));
         }
+
+        this.setAnswer(index);
     }
 
     setAnswer = (index) => {
@@ -83,7 +85,7 @@ class Test extends Component {
     }
 }
 
-function View({quiz, activeCardKey, moveActiveCardKey, setSelectedVariant, selectedVariants, answersLog, setAnswer, getResult}) {
+function View({quiz, activeCardKey, moveActiveCardKey, setSelectedVariant, selectedVariants, answersLog, /*setAnswer*/ getResult}) {
 
     const cards = quiz.questions.map((question, key) => {
         const cardClasses = key === activeCardKey ? "card active" : "card";
@@ -116,14 +118,12 @@ function View({quiz, activeCardKey, moveActiveCardKey, setSelectedVariant, selec
         :
         <>
             <button onClick={() => {
-                setAnswer(activeCardKey);
                 moveActiveCardKey(quiz.questions.length, activeCardKey + 1);
             }} className="complete-btn card-button">Complete
             </button>
             <Link to="/result" >
                 <button onClick={() => getResult(quiz, answersLog)} className="end-quiz-btn card-button">End quiz</button>
             </Link>
-
         </>
 
     return (
