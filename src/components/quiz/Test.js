@@ -14,8 +14,23 @@ class Test extends Component {
         this.state = {
             activeCardKey: 0,
             answersLog: {},
-            selectedVariants: {}
+            selectedVariants: {},
         }
+    }
+
+    shuffle = (questions) => {
+        let currentIndex = questions.length,  randomIndex;
+
+        while (currentIndex > 0) {
+
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+
+            [questions[currentIndex], questions[randomIndex]] = [
+                questions[randomIndex], questions[currentIndex]];
+        }
+
+        return questions;
     }
 
     moveActiveCardKey = (amount, activeCardKey) => {
@@ -85,22 +100,7 @@ class Test extends Component {
 
 function View({quiz, activeCardKey, moveActiveCardKey, setSelectedVariant, selectedVariants, answersLog, setAnswer, getResult}) {
 
-    function shuffle(questions) {
-        let currentIndex = questions.length,  randomIndex;
-
-        while (currentIndex > 0) {
-
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-
-            [questions[currentIndex], questions[randomIndex]] = [
-                questions[randomIndex], questions[currentIndex]];
-        }
-
-        return questions;
-    }
-
-    const cards = shuffle(quiz.questions).map((question, key) => {
+    const cards = quiz.questions.map((question, key) => {
         const cardClasses = key === activeCardKey ? "card active" : "card";
 
         const variants = question.answers.map((item, index) => {
