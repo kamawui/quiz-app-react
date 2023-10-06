@@ -4,11 +4,19 @@
     --selected: #2c4c6f;
     --white: #ffffff;
     --body: #ddd;
+    --gray: #dcdcdc;
     --dark: #000;
 }
 body {
     background-color: var(--body);
 }
+.app-wrapper {
+    width: 60%;
+    margin: 0 auto;
+}
 @media (max-width: 820px) {
-
+    .app-wrapper {
+        width: 100%;
+        margin: 0;
+    }
 }

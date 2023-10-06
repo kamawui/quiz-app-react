@@ -1,12 +1,28 @@
 .spinner {
     margin: 0 auto;
-    padding: 100px 0;
+    padding: 150px 0;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     width: 100%;
 }
 .spinner img {
     width: 64px;
     height: 64px;
+    margin: 100px 0;
+}
+.return-home {
+    border: none;
+    outline: none;
+    background-color: var(--main-dark);
+    padding: 20px 40px;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.return-home:hover {
+    background-color: var(--selected);
 }

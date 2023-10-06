@@ -24,3 +24,8 @@
     color: var(--dark);
     font-weight: 400;
 }
+.bold-text {
+    text-decoration: none;
+    color: var(--selected);
+    font-weight: 700;
+}

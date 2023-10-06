@@ -1,6 +1,4 @@
 .main-wrapper {
-    width: 60%;
-    margin: 0 auto;
     background-color: var(--white);
     color: var(--main-dark);
 }

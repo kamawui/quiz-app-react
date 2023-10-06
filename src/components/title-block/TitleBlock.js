@@ -13,7 +13,7 @@ class TitleBlock extends Component{
                         <h2 className="title-header">Quiz React App</h2>
                     </Link>
                     <p className="title-paragraph">
-                        Quiz on the topic of {topic}
+                        Quiz on the topic of <span className="bold-text">{topic}</span>
                     </p>
                 </div>
             </div>
