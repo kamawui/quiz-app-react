@@ -44,7 +44,6 @@ class App extends Component {
     render() {
         const {quiz, loadingQuiz, result, loadingResult} = this.state;
 
-        console.log(quiz);
 
         return (
             <div className="app-wrapper">

@@ -48,7 +48,7 @@ class Main extends Component {
                 },
                 easy: {
                     amountOfQuestions: 9,
-                    time: 20,
+                    time: 30,
                 },
                 medium: {
                     amountOfQuestions: 12,
@@ -56,7 +56,7 @@ class Main extends Component {
                 },
                 hard: {
                     amountOfQuestions: 20,
-                    time: 20,
+                    time: 10,
                 },
             },
             links: [
@@ -123,17 +123,19 @@ class Main extends Component {
                 res,
                 activeOption.title,
                 activeOption.difficulty,
-                difficultyOptions[activeOption.difficulty].amountOfQuestions
+                difficultyOptions[activeOption.difficulty].amountOfQuestions,
+                difficultyOptions[activeOption.difficulty].time
             ))
             .catch((e) => console.log(e))
     }
 
-    sendQuiz = (questions, title, difficulty, amountOfQuestions) => {
+    sendQuiz = (questions, title, difficulty, amountOfQuestions, time) => {
         let quiz = {
             title: title,
             difficulty: difficulty,
             amountOfQuestions: amountOfQuestions,
             questions: this.shuffle(questions),
+            time: time
         };
 
         this.props.setQuiz(quiz);

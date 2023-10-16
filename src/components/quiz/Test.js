@@ -6,6 +6,7 @@ import LeftArrow from "../svg/LeftArrow";
 import RightArrow from "../svg/RightArrow";
 import {Link} from "react-router-dom";
 import QuizInfo from "../quiz-info/QuizInfo";
+import Timer from "../timer/Timer";
 
 class Test extends Component {
     constructor(props) {
@@ -61,6 +62,10 @@ class Test extends Component {
         this.props.setResult(correctAnswers);
     }
 
+    ifExpired = () => {
+        this.getResult(this.props.quiz, this.state.answersLog);
+    }
+
     render() {
         const {quiz, loading} = this.props;
 
@@ -75,7 +80,8 @@ class Test extends Component {
                   answersLog={answersLog}
                   setAnswer={this.setAnswer}
                   getResult={this.getResult}
-                  moveActiveCardKey={this.moveActiveCardKey}/>
+                  moveActiveCardKey={this.moveActiveCardKey}
+                  ifExpired={this.ifExpired}/>
 
         return (
             <div className="test-wrapper">
@@ -85,7 +91,9 @@ class Test extends Component {
     }
 }
 
-function View({quiz, activeCardKey, moveActiveCardKey, setSelectedVariant, selectedVariants, answersLog, /*setAnswer*/ getResult}) {
+function View({quiz, activeCardKey, moveActiveCardKey,
+                  setSelectedVariant, selectedVariants,
+                  answersLog, getResult, ifExpired}) {
 
     const cards = quiz.questions.map((question, key) => {
         const cardClasses = key === activeCardKey ? "card active" : "card";
@@ -114,8 +122,7 @@ function View({quiz, activeCardKey, moveActiveCardKey, setSelectedVariant, selec
     const actionBtn = (activeCardKey + 1) === quiz.questions.length ?
         <Link to="/result">
             <button onClick={() => getResult(quiz, answersLog)} className="complete-quiz-btn card-button">Complete quiz</button>
-        </Link>
-        :
+        </Link> :
         <>
             <button onClick={() => {
                 moveActiveCardKey(quiz.questions.length, activeCardKey + 1);
@@ -132,9 +139,15 @@ function View({quiz, activeCardKey, moveActiveCardKey, setSelectedVariant, selec
             <div className="test-content">
                 <QuizInfo quiz={quiz}/>
                 <div className="quiz-container">
-                    <div className="quiz-counter">
-                        Question {activeCardKey + 1} from {quiz.amountOfQuestions}
+                    <div className="quiz-parameters">
+                        <div className="timer-wrapper">
+                            <Timer time={quiz.time} ifExpired={ifExpired}/>
+                        </div>
+                        <div className="quiz-counter">
+                            Question {activeCardKey + 1} from {quiz.amountOfQuestions}
+                        </div>
                     </div>
+
                     <div className="quiz-cards">
                         <button onClick={() => moveActiveCardKey(quiz.questions.length, activeCardKey - 1)}
                                 className="slider-btn">

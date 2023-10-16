@@ -5,6 +5,15 @@
     width: 80%;
     margin: 0 auto;
 }
+.quiz-parameters {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    top: -20px;
+}
 .quiz-counter {
     border: 1px solid var(--main-theme);
     font-size: 16px;
@@ -13,10 +22,18 @@
     justify-content: center;
     align-items: center;
     width: 150px;
-    position: relative;
-    left: 75%;
-    top: -17px;
     background-color: var(--white);
+}
+.timer-wrapper {
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    padding: 5px;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    background-color: var(--white);
+    color: var(--main-dark);
 }
 .quiz-cards {
     display: flex;
@@ -58,6 +75,7 @@
     align-items: center;
     color: black;
     cursor: pointer;
+    text-align: center;
 }
 .selected-variant {
     background-color: var(--main-dark);

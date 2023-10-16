@@ -8,11 +8,11 @@ import QuizInfo from "../quiz-info/QuizInfo";
 class Result extends Component {
 
     render() {
-        const {quiz, loading, result} = this.props;
+        const {quiz, loading, result, time} = this.props;
 
         const view = loading ?
             <Spinner /> :
-            <View quiz={quiz} result={result}/>
+            <View quiz={quiz} result={result} time={time}/>
 
         return (
             <div className="result-wrapper">
@@ -22,11 +22,11 @@ class Result extends Component {
     }
 }
 
-function View({quiz, result}) {
+function View({quiz, result, time}) {
 
 
     function getPercentOfCorrectAnswers(result, maximum) {
-        return result / maximum * 100;
+        return (result / maximum * 100).toFixed(0);
     }
 
     return (
